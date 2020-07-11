@@ -9,6 +9,8 @@ import me.geek.tom.fabriscript.script.impl.WorldInterfaceImpl;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.script.ScriptException;
 import java.io.File;
@@ -20,6 +22,8 @@ import java.util.List;
 
 public class ScriptLoader {
 
+    private static final Logger LOGGER = LogManager.getLogger();
+
     private static final List<String> ALLOWED_CLASSES = Arrays.asList(
             ""
     );
@@ -27,6 +31,22 @@ public class ScriptLoader {
     public static long loadAndExecScript(String name, String args, CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
         File scriptDir = new File(ctx.getSource().getMinecraftServer().getRunDirectory(), "fabriscript");
         File script  = new File(scriptDir, name.endsWith(".js") ? name : name + ".js");
+
+        // Only allow scripts to be run from the correct dir, prevent some security issues on the server.
+        if (!scriptDir.equals(script.getParentFile())) {
+            String first = "     USER: " + ctx.getSource().getName() + " ATTEMPTED TO LOAD A SCRIPT FROM OUTSIDE THE fabriscript DIRECTORY!     ";
+            String second = "     THIS IS NOT NORMAL BEHAVIOR, THE FILE THEY ATTEMPTED TO ACCESS WAS: " + script + "     ";
+            int len = Math.max(first.length(), second.length());
+            StringBuilder stars = new StringBuilder();
+            for (int i = 0; i < len; i++) {
+                stars.append("*");
+            }
+            LOGGER.warn(stars);
+            LOGGER.warn(first);
+            LOGGER.warn(second);
+            LOGGER.warn(stars);
+            return 1;
+        }
 
         final NashornScriptEngineFactory factory = new NashornScriptEngineFactory();
         final NashornScriptEngine engine = (NashornScriptEngine) factory.getScriptEngine(s ->
