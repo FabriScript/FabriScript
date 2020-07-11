@@ -8,7 +8,7 @@
  * List of axis used for random selection.
  */
 var AXIS = [
-  "x", "y", "z"
+    "x", "y", "z"
 ];
 
 /*
@@ -17,9 +17,14 @@ var AXIS = [
  */
 var main = function(world, ctx, args) {
     /*
+     * This will be useful in any script that interacts with the player.
+     */
+    var player = ctx.getCaller();
+
+    /*
      * You can send messages to the player, or broadcast to the entire server using #broadcastMessage
      */
-    ctx.sendMessage("Running with args: " + args);
+    player.sendMessage("Running with args: " + args);
 
     /*
      * These loops show off the abilities of world interaction by placing randomly oriented oak logs around the player
@@ -40,7 +45,7 @@ var main = function(world, ctx, args) {
     /*
      * You can teleport the player using #teleport and #relativeTeleport, and here we also throw the player off in a random direction.
      */
-    ctx.relativeTeleport(0, 100, 0);
+    player.relativeTeleport(0, 100, 0);
 
     // TODO: Fix the application of motion onto the player.
     //ctx.applyMotion((Math.floor(Math.random()))*3, 1, Math.floor(Math.random())*3);
