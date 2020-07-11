@@ -33,9 +33,9 @@ public class ScriptLoader {
         File script  = new File(scriptDir, name.endsWith(".js") ? name : name + ".js");
 
         // Only allow scripts to be run from the correct dir, prevent some security issues on the server.
-        if (!scriptDir.equals(script.getParentFile())) {
+        if (!scriptDir.equals(script.getAbsoluteFile().getParentFile())) {
             String first = "     USER: " + ctx.getSource().getName() + " ATTEMPTED TO LOAD A SCRIPT FROM OUTSIDE THE fabriscript DIRECTORY!     ";
-            String second = "     THIS IS NOT NORMAL BEHAVIOR, THE FILE THEY ATTEMPTED TO ACCESS WAS: " + script + "     ";
+            String second = "     THIS IS NOT NORMAL BEHAVIOR, THE FILE THEY ATTEMPTED TO ACCESS WAS: " + script.getAbsolutePath() + "     ";
             int len = Math.max(first.length(), second.length());
             StringBuilder stars = new StringBuilder();
             for (int i = 0; i < len; i++) {
