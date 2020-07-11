@@ -6,9 +6,8 @@ import me.geek.tom.fabriscript.script.api.IWorldInterface;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.command.arguments.BlockArgumentParser;
-import net.minecraft.command.arguments.BlockStateArgument;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -52,5 +51,20 @@ public class WorldInterfaceImpl implements IWorldInterface {
             state = Blocks.AIR.getDefaultState();
         }
         this.world.setBlockState(playerPos.add(x, y, z), state);
+    }
+
+    @Override
+    public void spawnEntity(int relX, int relY, int relZ, String entity) {
+        spawnEntity(relX, relY, relZ, entity, false);
+    }
+
+    @Override
+    public void spawnEntity(int relX, int relY, int relZ, String entity, boolean naturalSpawn) {
+        Registry.ENTITY_TYPE.get(new Identifier(entity)).spawn(this.world,
+                null, null, null,
+                this.playerPos.add(relX, relY, relZ),
+                naturalSpawn ? SpawnReason.NATURAL : SpawnReason.COMMAND,
+                false, false
+        );
     }
 }
