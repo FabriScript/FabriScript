@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "me.geek.tom.fabriscript.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    
+  ],
+  "client": [
+
+  ],
+  "server": [
+    "MixinMinecraftDedicatedServer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
