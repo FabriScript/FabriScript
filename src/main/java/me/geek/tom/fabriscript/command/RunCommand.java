@@ -26,7 +26,7 @@ public class RunCommand {
                             .executes(ctx -> CMD.run(ctx, getString(ctx, "args")))));
     }
 
-    public int run(CommandContext<ServerCommandSource> ctx, String args) throws CommandSyntaxException {
+    private int run(CommandContext<ServerCommandSource> ctx, String args) throws CommandSyntaxException {
         String scriptName = getString(ctx, "script");
         long time = ScriptLoader.loadAndExecScript(scriptName, args, ctx);
         if (time != -1L)

@@ -9,8 +9,10 @@ public class ModCommands {
     public static void init() {
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
             LiteralCommandNode<ServerCommandSource> node = dispatcher.register(CommandManager.literal("fabriscript")
-                                    .then(HelpCommand.register(dispatcher))
-                                    .then(RunCommand.register(dispatcher)));
+                    .then(HelpCommand.register(dispatcher))
+                    .then(RunCommand.register(dispatcher))
+                    .executes(HelpCommand.CMD)
+            );
             dispatcher.register(CommandManager.literal("script").redirect(node)); // Alias '/script' to '/fabriscript'
         });
     }

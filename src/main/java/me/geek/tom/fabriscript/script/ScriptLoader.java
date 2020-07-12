@@ -5,7 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import jdk.nashorn.api.scripting.NashornScriptEngine;
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import me.geek.tom.fabriscript.script.impl.ContextImpl;
-import me.geek.tom.fabriscript.script.impl.WorldInterfaceImpl;
+import me.geek.tom.fabriscript.script.impl.WorldImpl;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
@@ -29,6 +29,7 @@ public class ScriptLoader {
     );
 
     public static long loadAndExecScript(String name, String args, CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
+        // Initalise some paths.
         File scriptDir = new File(ctx.getSource().getMinecraftServer().getRunDirectory(), "fabriscript");
         File script  = new File(scriptDir, name.endsWith(".js") ? name : name + ".js");
 
@@ -48,15 +49,21 @@ public class ScriptLoader {
             return 1;
         }
 
+        // Setup the script engine.
         final NashornScriptEngineFactory factory = new NashornScriptEngineFactory();
         final NashornScriptEngine engine = (NashornScriptEngine) factory.getScriptEngine(s ->
                 ALLOWED_CLASSES.stream().anyMatch(s::startsWith));
+
+        // Read and attempt to execute the script.
         try (FileReader reader = new FileReader(script)) {
+            // Time the execution.
             ScriptTimer timer = new ScriptTimer();
             timer.start();
+            // Execute the script
             engine.eval(reader);
+            // Invoke the main function and pass the context and args.
             ServerPlayerEntity player = ctx.getSource().getPlayer();
-            engine.invokeFunction("main", new WorldInterfaceImpl(player, player.getEntityWorld()), new ContextImpl(player), args);
+            engine.invokeFunction("main", new ContextImpl(player), args);
             return timer.stop();
         } catch (FileNotFoundException e) {
             ctx.getSource().sendError(new TranslatableText("fabriscript.script.notfound", name));

@@ -20,6 +20,7 @@ var main = function(world, ctx, args) {
      * This will be useful in any script that interacts with the player.
      */
     var player = ctx.getCaller();
+    var world = ctx.getWorld();
 
     /*
      * You can send messages to the player, or broadcast to the entire server using #broadcastMessage

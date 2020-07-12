@@ -2,7 +2,7 @@ package me.geek.tom.fabriscript.script.impl;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import me.geek.tom.fabriscript.script.api.IWorldInterface;
+import me.geek.tom.fabriscript.script.api.IWorld;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.command.arguments.BlockArgumentParser;
@@ -15,13 +15,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-public class WorldInterfaceImpl implements IWorldInterface {
+public class WorldImpl implements IWorld {
 
     private PlayerEntity player;
     private BlockPos playerPos;
     private World world;
 
-    public WorldInterfaceImpl(PlayerEntity player, World world) {
+    public WorldImpl(PlayerEntity player, World world) {
         this.player = player;
         this.world = world;
         this.playerPos = player.getBlockPos();

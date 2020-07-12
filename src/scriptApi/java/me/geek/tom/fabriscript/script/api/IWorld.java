@@ -1,6 +1,6 @@
 package me.geek.tom.fabriscript.script.api;
 
-public interface IWorldInterface {
+public interface IWorld {
     /**
      * Sets a block relative to the player.
      * If the block ID is invalid, the block will be set to air instead/

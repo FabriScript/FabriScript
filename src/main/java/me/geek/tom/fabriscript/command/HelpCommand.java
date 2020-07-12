@@ -11,7 +11,7 @@ import net.minecraft.text.TranslatableText;
 
 public class HelpCommand implements Command<ServerCommandSource> {
 
-    private static final HelpCommand CMD = new HelpCommand();
+    public static final HelpCommand CMD = new HelpCommand();
 
     public static ArgumentBuilder<ServerCommandSource, ?> register(CommandDispatcher<ServerCommandSource> dispatcher) {
         return CommandManager.literal("help")
