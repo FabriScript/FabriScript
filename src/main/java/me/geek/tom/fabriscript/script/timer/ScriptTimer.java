@@ -1,4 +1,4 @@
-package me.geek.tom.fabriscript.script;
+package me.geek.tom.fabriscript.script.timer;
 
 public class ScriptTimer {
 

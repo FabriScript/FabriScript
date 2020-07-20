@@ -1,7 +1,8 @@
 {
   "fabriscript.command.help.feedback": "Maybe check the wiki, this isn't really going to be that helpful in one line.",
 
-  "fabriscript.script.executed": "Executed script '%s' in %d ms",
+  "fabriscript.script.executed": "Executed script '%s' in %d ms (Setup: %d ms / Eval: %d ms)",
+  "fabriscript.script.evalres": "Result: %s",
 
   "fabriscript.script.mainfail": "An exception has occurred while calling main, a more detailed stacktrace has been printed to the console: %s",
   "fabriscript.script.notfound": "The script %s does not exist!",

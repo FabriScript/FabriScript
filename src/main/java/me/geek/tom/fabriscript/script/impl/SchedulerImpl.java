@@ -6,6 +6,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.timer.Timer;
 import net.minecraft.world.timer.TimerCallback;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
 
 public class SchedulerImpl implements IScheduler {
 
@@ -19,13 +22,14 @@ public class SchedulerImpl implements IScheduler {
     private final Timer<MinecraftServer> internalTimer;
     private final World world;
 
+    @SuppressWarnings("ConstantConditions")
     public SchedulerImpl(World world) {
         this.internalTimer = world.getServer().getSaveProperties().getMainWorldProperties().getScheduledEvents();
         this.world = world;
     }
 
     @Override
-    public String scheduleTask(ScriptObjectMirror callback, int ticks) {
+    public String scheduleTask(Function callback, int ticks) {
         String taskName = NAME_PREFIX + nextId();
         long time = world.getTime() + (long)ticks;
         internalTimer.setEvent(taskName, time, new ScheduledScriptTask(callback));
@@ -33,15 +37,19 @@ public class SchedulerImpl implements IScheduler {
     }
 
     private static class ScheduledScriptTask implements TimerCallback<MinecraftServer> {
-        private final ScriptObjectMirror callback;
+        private final Function callback;
+        private Context ctx;
 
-        private ScheduledScriptTask(ScriptObjectMirror callback) {
+        private ScheduledScriptTask(Function callback) {
+            ctx = Context.enter();
             this.callback = callback;
         }
 
         @Override
         public void call(MinecraftServer server, Timer<MinecraftServer> events, long time) {
-            callback.call(null);
+            Scriptable scope = callback.getParentScope();
+            callback.call(ctx, scope, scope, new Object[0]);
+            Context.exit();
         }
     }
 }

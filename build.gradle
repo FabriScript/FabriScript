@@ -1,3 +1,5 @@
+import net.fabricmc.loom.task.RemapJarTask
+
 plugins {
     id 'fabric-loom' version '0.4.30'
     id 'maven-publish'
@@ -23,12 +25,21 @@ sourceSets {
 minecraft {
 }
 
+configurations {
+    shadow
+    compile.extendsFrom shadow
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modImplementation "io.github.prospector:modmenu:${project.modmenu_version}"
+
+    shadow "org.mozilla:rhino:${project.rhino_version}"
 }
 
 processResources {
@@ -55,12 +66,31 @@ tasks.withType(JavaCompile) {
 // if it is present.
 // If you remove this task, sources will not be generated.
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = "sources"
+    archiveClassifier.set("sources")
     from sourceSets.main.allSource
 }
 
 jar {
     from "LICENSE"
+}
+
+task shadowJar(type: Jar) {
+    archiveClassifier.set("dev-all")
+    from sourceSets.main.output, sourceSets.scriptApi.output
+
+    from {
+        configurations.shadow.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
+
+task remapShadowJar(type: RemapJarTask) {
+    dependsOn shadowJar
+
+    input = file("${project.buildDir}/libs/$archivesBaseName-$version-dev-all.jar")
+    archiveName = "$archivesBaseName-$version-all.jar"
+    addNestedDependencies = true
 }
 
 // configure the maven publication

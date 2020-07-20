@@ -5,7 +5,8 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import me.geek.tom.fabriscript.script.ScriptLoader;
+import me.geek.tom.fabriscript.script.ScriptExecutor;
+import me.geek.tom.fabriscript.script.timer.ScriptTimerGroup;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.TranslatableText;
@@ -28,9 +29,9 @@ public class RunCommand {
 
     private int run(CommandContext<ServerCommandSource> ctx, String args) throws CommandSyntaxException {
         String scriptName = getString(ctx, "script");
-        long time = ScriptLoader.loadAndExecScript(scriptName, args, ctx);
-        if (time != -1L)
-            ctx.getSource().sendFeedback(new TranslatableText("fabriscript.script.executed", scriptName, time)
+        ScriptTimerGroup timers = ScriptExecutor.loadAndExecScript(scriptName, args, ctx);
+        if (timers != null)
+            ctx.getSource().sendFeedback(new TranslatableText("fabriscript.script.executed", scriptName, timers.getTotalTime(), timers.getSetupTime(), timers.getEvalTime())
                     .styled(s->s.withColor(Formatting.GREEN)), false);
         return 0;
     }

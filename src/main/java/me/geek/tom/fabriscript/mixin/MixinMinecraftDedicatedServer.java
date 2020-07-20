@@ -16,7 +16,7 @@ public class MixinMinecraftDedicatedServer {
 
     @Inject(method = "setupServer",
             at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;info(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V",
-                    shift = At.Shift.AFTER))
+                    shift = At.Shift.AFTER, remap = false))
     private void onServerSetup(CallbackInfoReturnable<Boolean> cir) {
         LOGGER.warn("=================| ! WARNING ! |=================");
         LOGGER.warn("*****  This server is running FabriScript!  *****");

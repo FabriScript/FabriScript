@@ -1,6 +1,6 @@
 package me.geek.tom.fabriscript.script.api;
 
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import org.mozilla.javascript.Function;
 
 /**
  * Allows scripts to request that functions are ran at a later time.
@@ -14,6 +14,6 @@ public interface IScheduler {
      * @param ticks How many ticks to wait before the task is ran.
      * @return A unique ID for this task, potentially used to cancel if wanted.
      */
-    String scheduleTask(ScriptObjectMirror callback, int ticks);
+    String scheduleTask(Function callback, int ticks);
 
 }

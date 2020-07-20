@@ -11,6 +11,7 @@ public class ModCommands {
             LiteralCommandNode<ServerCommandSource> node = dispatcher.register(CommandManager.literal("fabriscript")
                     .then(HelpCommand.register(dispatcher))
                     .then(RunCommand.register(dispatcher))
+                    .then(EvalCommand.register(dispatcher))
                     .executes(HelpCommand.CMD)
             );
             dispatcher.register(CommandManager.literal("script").redirect(node)); // Alias '/script' to '/fabriscript'
