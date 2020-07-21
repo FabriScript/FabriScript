@@ -119,7 +119,7 @@ declare class World {
      * @param z The relative Z coordinate
      * @param blockState The blockstate to set, in the form used by commands. Eg. <code>minecraft:oak_log[axis=y]</code>
      */
-    public setBlockstate(x: number, y: number, z: number, blockState: string): void;
+    public setBlockState(x: number, y: number, z: number, blockState: string): void;
 
     /**
      * Spawns a new entity at the given relative location.
@@ -177,3 +177,30 @@ declare class Context {
 }
 
 declare const context: Context;
+
+/**
+ * The trigonomic function 'sine'
+ *
+ * @param angle The angle in degrees.
+ */
+declare function sin(angle: number): number;
+
+/**
+ * The trigonomic function 'cosine'
+ *
+ * @param angle The angle in degrees.
+ */
+declare function cos(angle: number): number;
+
+/**
+ * The trigonomic function 'tan'
+ *
+ * @param angle The angle in degrees.
+ */
+declare function tan(angle: number): number;
+
+declare function perlin2d(x: number, y: number);
+declare function perlin2d_seeded(x: number, y: number, seed: number);
+
+declare function perlin3d(x: number, y: number, z: number);
+declare function perlin3d_seeded(x: number, y: number, z: number, seed: number);
