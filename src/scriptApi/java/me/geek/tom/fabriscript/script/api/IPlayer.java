@@ -36,7 +36,7 @@ public interface IPlayer {
     void teleport(BlockLocation target);
 
     /**
-     * Apply motion to the player that ran the command. THis will be added onto any motion the entity already has.
+     * Apply motion to the player that ran the command. This will be added onto any motion the entity already has.
      *
      * @param xVelocity The X velocity to add.
      * @param yVelocity The Y velocity to add.

@@ -1,6 +1,5 @@
 package me.geek.tom.fabriscript.script.impl;
 
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import me.geek.tom.fabriscript.script.api.IScheduler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
@@ -29,9 +28,9 @@ public class SchedulerImpl implements IScheduler {
     }
 
     @Override
-    public String scheduleTask(Function callback, int ticks) {
+    public String scheduleTask(Function callback, int delay) {
         String taskName = NAME_PREFIX + nextId();
-        long time = world.getTime() + (long)ticks;
+        long time = world.getTime() + (long) delay;
         internalTimer.setEvent(taskName, time, new ScheduledScriptTask(callback));
         return taskName;
     }
