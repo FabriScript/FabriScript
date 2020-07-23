@@ -1,8 +1,21 @@
+buildscript {
+    repositories {
+        maven {
+            name = "TomTheGeek-repo"
+            url = 'http://maven.tomthegeek.ml'
+        }
+    }
+    dependencies {
+        //classpath group: 'me.geek.tom', name: 'JavaToTS', version: '1.0-SNAPSHOT', changing: true
+    }
+}
+
 import net.fabricmc.loom.task.RemapJarTask
 
 plugins {
     id 'fabric-loom' version '0.4.30'
     id 'maven-publish'
+    id 'me.geek.tom.javatots' version '1.0'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -91,6 +104,11 @@ task remapShadowJar(type: RemapJarTask) {
     input = file("${project.buildDir}/libs/$archivesBaseName-$version-dev-all.jar")
     archiveName = "$archivesBaseName-$version-all.jar"
     addNestedDependencies = true
+}
+
+typescriptgen {
+    apiDir project.file('src/scriptApi/java/')
+    outputFile project.file('fabriscript.generated.d.ts')
 }
 
 // configure the maven publication

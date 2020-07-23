@@ -9,3 +9,5 @@ out/
 
 # runtime
 run/
+
+fabriscript.generated.d.ts

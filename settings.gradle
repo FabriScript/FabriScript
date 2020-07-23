@@ -5,6 +5,10 @@ pluginManagement {
             name = 'Fabric'
             url = 'https://maven.fabricmc.net/'
         }
+        maven {
+            name = "TomTheGeek-repo"
+            url = 'http://maven.tomthegeek.ml'
+        }
         gradlePluginPortal()
     }
 }
