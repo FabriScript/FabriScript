@@ -10,3 +10,5 @@ for (var x = 0; x < 20; x++) {
         world.setBlock(xPos, noise, zPos, "minecraft:stone");
     }
 }
+
+player.sendMessage("Hello!");

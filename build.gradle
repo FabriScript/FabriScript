@@ -43,6 +43,12 @@ configurations {
     compile.extendsFrom shadow
 }
 
+repositories {
+    maven {
+        name = "TomTheGeek-repo"
+        url = 'http://maven.tomthegeek.ml'
+    }
+}
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
@@ -53,6 +59,9 @@ dependencies {
     modImplementation "io.github.prospector:modmenu:${project.modmenu_version}"
 
     shadow "org.mozilla:rhino:${project.rhino_version}"
+    shadow "me.geek.tom:FabriScriptWSServer:${project.wsserver_version}"
+    // Should come from FabriScriptWSServer, but I can't compile against it when its a transitive dep.
+    shadow "org.java-websocket:Java-WebSocket:1.5.1"
 }
 
 processResources {

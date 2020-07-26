@@ -29,7 +29,7 @@ public class RunCommand {
 
     private int run(CommandContext<ServerCommandSource> ctx, String args) throws CommandSyntaxException {
         String scriptName = getString(ctx, "script");
-        ScriptTimerGroup timers = ScriptExecutor.loadAndExecScript(scriptName, args, ctx);
+        ScriptTimerGroup timers = ScriptExecutor.loadAndExecScript(scriptName, args, ctx.getSource());
         if (timers != null)
             ctx.getSource().sendFeedback(new TranslatableText("fabriscript.script.executed", scriptName, timers.getTotalTime(), timers.getSetupTime(), timers.getEvalTime())
                     .styled(s->s.withColor(Formatting.GREEN)), false);

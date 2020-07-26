@@ -29,15 +29,15 @@ public class ScriptExecutor {
             ""
     );
 
-    public static ScriptTimerGroup loadAndExecScript(String name, String args, CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
+    public static ScriptTimerGroup loadAndExecScript(String name, String args, ServerCommandSource sender) throws CommandSyntaxException {
         // Initialise some paths.
-        File scriptDir = new File(ctx.getSource().getMinecraftServer().getRunDirectory(), "fabriscript");
+        File scriptDir = new File(sender.getMinecraftServer().getRunDirectory(), "fabriscript");
         String scriptFileName = name.endsWith(".js") ? name : name + ".js";
         File script  = new File(scriptDir, scriptFileName);
 
         // Only allow scripts to be run from the correct dir, prevent some security issues on the server.
         if (!scriptDir.equals(script.getAbsoluteFile().getParentFile())) {
-            String first = "     USER: " + ctx.getSource().getName() + " ATTEMPTED TO LOAD A SCRIPT FROM OUTSIDE THE fabriscript DIRECTORY!     ";
+            String first = "     USER: " + sender.getName() + " ATTEMPTED TO LOAD A SCRIPT FROM OUTSIDE THE fabriscript DIRECTORY!     ";
             String second = "     THIS IS NOT NORMAL BEHAVIOR! THE FILE THEY ATTEMPTED TO ACCESS WAS: " + script.getAbsolutePath() + "     ";
             int len = Math.max(first.length(), second.length());
             StringBuilder stars = new StringBuilder();
@@ -59,7 +59,7 @@ public class ScriptExecutor {
 
         // Initialise the engine.
         Context cx = Context.enter();
-        ScriptableObject scope = setup(cx, ctx.getSource().getPlayer());
+        ScriptableObject scope = setup(cx, sender.getPlayer());
 
         ScriptableObject.putProperty(scope, "args", args);
 
@@ -72,12 +72,12 @@ public class ScriptExecutor {
             timers.complete();
             return timers;
         } catch (FileNotFoundException e) {
-            ctx.getSource().sendError(new TranslatableText("fabriscript.script.notfound", name));
+            sender.sendError(new TranslatableText("fabriscript.script.notfound", name));
         } catch (IOException e) {
-            ctx.getSource().sendError(new TranslatableText("fabriscript.script.loaderror", e.getMessage()));
+            sender.sendError(new TranslatableText("fabriscript.script.loaderror", e.getMessage()));
             e.printStackTrace();
         } catch (Exception e) {
-            ctx.getSource().sendError(new TranslatableText("fabriscript.script.loaderror", e.getMessage()));
+            sender.sendError(new TranslatableText("fabriscript.script.loaderror", e.getMessage()));
             return null;
         } finally {
             Context.exit();

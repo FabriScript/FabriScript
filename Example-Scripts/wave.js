@@ -28,8 +28,6 @@ for (var i = 0; i < 90; i++) {
 
     var block = colours[Math.floor(((s+1) / 2) * colours.length)]
 
-    //player.sendMessage(yPos.toString());
-
     for (var y = -12; y <= 12; y++) {
         if (y === yPos) {
             world.setBlock(i, y, 0, block);
