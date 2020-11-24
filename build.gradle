@@ -146,12 +146,23 @@ publishing {
             artifact(sourcesJar) {
                 builtBy remapSourcesJar
             }
+            artifact(shadowJar) {
+                builtBy shadowJar
+            }
+            artifact(remapShadowJar) {
+                builtBy remapShadowJar
+            }
         }
     }
 
-    // select the repositories you want to publish to
     repositories {
-        // uncomment to publish to the local maven
-        // mavenLocal()
+        maven {
+            name = "TomTheGeek-Repo"
+            url = "http://maven-upload.tomthegeek.ml/"
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
     }
 }
