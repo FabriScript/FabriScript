@@ -128,6 +128,7 @@ task remapShadowJar(type: RemapJarTask) {
     input = file("${project.buildDir}/libs/$archivesBaseName-$version-dev-all.jar")
     archiveName = "$archivesBaseName-$version-all.jar"
     addNestedDependencies = true
+    archiveClassifier.set("all")
 }
 
 typescriptgen {
